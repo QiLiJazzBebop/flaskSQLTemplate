@@ -232,28 +232,21 @@ def insertRows(db, tableName, keyTuple: tuple, valueTupleList: list):
         cursor.close()
         db.close()
 
+## example
+## sql: UPDATE employees SET lastname = 'Hill',email = 'mary.hill@classicmodelcars.com WHERE employeeNumber = 1056;
 
-def dbUpdate(db, tableName, fieldOri, fieldAfter, oriValue, givenValue):
+
+def dbUpdate(db, sqlQuery):
     """
-    Update the field of rows by given condition
+    Given a query, execute the update operation
     :param db: database to run query
     :type db: Union[CMySQLConnection, MySQLConnection]
-    :param tableName: target table name
-    :type tableName: String
-    :param fieldOri: the target ele name
-    :type fieldOri: String
-    :param fieldAfter: the field name which waiting for operate
-    :type fieldAfter: String
-    :param oriValue: the target ele value
-    :type oriValue: string
-    :param givenValue: the field value wan to be changed for
-    :type givenValue: string
+    :param sqlQuery: the update query
+    :type sqlQuery: String
     :return: None
     :rtype: None
     """
     cursor = db.cursor()
-    sqlQuery = "UPDATE " + tableName + " SET " + fieldAfter + " = " + str(givenValue) + " WHERE " + fieldOri + " = " + \
-               str(oriValue)
     try:
         cursor.execute(sqlQuery)
         db.commit()
@@ -275,13 +268,13 @@ def dbUpdate(db, tableName, fieldOri, fieldAfter, oriValue, givenValue):
 
 def dbSelect(db, sql):
     """
-    Select rows as return, Enable sql command as input, and return result as dict
+    Select rows as return, Enable sql command as input, and return result as a list comprise of tuples
     :param db: database to run query
     :type db: Union[CMySQLConnection, MySQLConnection]
     :param sql: sql command
     :type sql: String
-    :return: dict stand for rows
-    :rtype: Dict
+    :return: list of tuples
+    :rtype: List
     """
     cursor = db.cursor()
     res = []
@@ -291,10 +284,11 @@ def dbSelect(db, sql):
     except:
         db.rollback()
     finally:
-        print(cursor.rowcount, "record(s) select3ed")
+        print(cursor.rowcount, "record(s) selected")
         cursor.close()
         db.close()
-        return dict(res)
+
+        return res
 
 
 ## example
