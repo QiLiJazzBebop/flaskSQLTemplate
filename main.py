@@ -139,10 +139,11 @@ def pageOperation(id):
     if request.method == 'DELETE':
         employee = dbSelect(getDB(), "SELECT * FROM customers WHERE id = " + str(id))
         try:
-            if employee:
+            if len(employee) != 0:
                 # delete page query
                 dbDelete(getDB(), "DELETE FROM customers WHERE id = " + str(id))
                 return "True"
+            return "False"
         except:
             return "False"
     if request.method == 'PUT':
@@ -157,6 +158,7 @@ def pageOperation(id):
                          "UPDATE customers SET name = '" + name + "', address = '" + address + "' WHERE id = " + str(
                              id))
                 return "True"
+            return "False"
         except:
             return "False"
 
