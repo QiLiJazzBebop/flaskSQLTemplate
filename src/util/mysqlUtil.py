@@ -23,15 +23,13 @@ def exceptionLog(operation=""):
     log error of sql operation to log file
     :param operation: sql Operation
     :type operation: String
-    :param exception: the exception occur
-    :type exception: Exception
     :return: None
     :rtype: None
     """
     f = open(get_project_root() + "/log/exception_" + date.today().__str__(), "a+")
     ex_type, ex_value, ex_traceback = sys.exc_info()
 
-    # Extract unformatter stack traces as tuples
+    # Extract formatter stack traces as tuples
     trace_back = traceback.extract_tb(ex_traceback)
     # Format stacktrace
     stack_trace = list()
@@ -88,11 +86,12 @@ def getDB(host="localhost", user="root", password="?Aa13552676625", database="en
     """
     try:
         db = mysql.connector.connect(host=host, user=user, password=password, database=database)
+        return db
     except:
         print("Fail to connect")
         exceptionLog("fail to connect to sql")
         sys.exit(0)
-    return db
+
 
 
 def createDatabase(db, dataBaseName):
@@ -117,7 +116,6 @@ def createDatabase(db, dataBaseName):
         db.rollback()
     finally:
         cursor.close()
-        db.close()
 
 
 def dropDatabase(db, dataBaseName):
@@ -145,7 +143,6 @@ def dropDatabase(db, dataBaseName):
         db.rollback()
     finally:
         cursor.close()
-        db.close()
 
 
 def createTableSpecified(db, tableName, elementList):
@@ -176,7 +173,6 @@ def createTableSpecified(db, tableName, elementList):
         db.rollback()
     finally:
         cursor.close()
-        db.close()
 
 
 def dropTable(db, tableName):
@@ -201,7 +197,6 @@ def dropTable(db, tableName):
         db.rollback()
     finally:
         cursor.close()
-        db.close()
 
 
 def insertRows(db, tableName, keyTuple: tuple, valueTupleList: list):
@@ -230,7 +225,7 @@ def insertRows(db, tableName, keyTuple: tuple, valueTupleList: list):
         db.rollback()
     finally:
         cursor.close()
-        db.close()
+
 
 ## example
 ## sql: UPDATE employees SET lastname = 'Hill',email = 'mary.hill@classicmodelcars.com WHERE employeeNumber = 1056;
@@ -257,7 +252,6 @@ def dbUpdate(db, sqlQuery):
     finally:
         print(cursor.rowcount, "records(s) deleted")
         cursor.close()
-        db.close()
 
 
 ## example
@@ -286,7 +280,6 @@ def dbSelect(db, sql):
     finally:
         print(cursor.rowcount, "record(s) selected")
         cursor.close()
-        db.close()
 
         return res
 
@@ -313,4 +306,3 @@ def dbDelete(db, sql):
     finally:
         print(cursor.rowcount, "records(s) deleted")
         cursor.close()
-        db.close()
