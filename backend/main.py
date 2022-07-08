@@ -1,9 +1,9 @@
 from flask_jwt_extended import JWTManager
 
-from src.route.customers import customersRoute
-from src.route.helloWorld import baseRoute
+# from route.customers import customersRoute
+from route.helloWorld import baseRoute
 from flask_cors import CORS
-from flask import Flask, config, redirect
+from flask import Flask
 import os
 
 
@@ -25,7 +25,9 @@ def create_app(test_config=None):
     JWTManager(app)
 
     # Registering endpoints
-    app.register_blueprint(customersRoute)
+    # app.register_blueprint(customersRoute)
     app.register_blueprint(baseRoute)
 
     return app
+
+create_app().run()

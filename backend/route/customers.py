@@ -1,10 +1,6 @@
-import json
-import validators
 
 from flask import Blueprint, jsonify, request
-from werkzeug.security import check_password_hash, generate_password_hash
-from src.util.mysqlUtil import *
-from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token, create_refresh_token
+from backend.util.mysqlUtil import *
 
 # define the root path
 customersRoute = Blueprint("customers", __name__, url_prefix="/api/customers")
